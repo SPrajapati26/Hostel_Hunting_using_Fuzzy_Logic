@@ -26,6 +26,7 @@ Hostel_Hunting_using_Fuzzy/
 │
 ├── data/
 │   └── bern_hostel_complete_dataset.csv
+│   └── zurich_hostel_complete_dataset.csv
 │
 ├── Reports/
 │   └── Pre-Implementation Evaluation.pdf
@@ -41,7 +42,8 @@ Hostel_Hunting_using_Fuzzy/
 
 - app.py –>  web application
 - fuzzy_engine.py –> Fuzzy recommendation engine
-- data/bern_hostel_complete_dataset.csv –> Hostel dataset
+- data/bern_hostel_complete_dataset.csv –> Hostel dataset for city Bern
+- data/bern_hostel_complete_dataset.csv –> Hostel dataset for city Zurich
 - templates/index.html –> Frontend HTML files
 - requirements.txt -> required packages to run the project
 - Reports -> Pre-Implementation Evaluation.pdf ( fuzzy logic is working fine or not for the project)
