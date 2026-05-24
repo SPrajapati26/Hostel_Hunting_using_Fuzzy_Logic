@@ -47,7 +47,7 @@ Hostel_Hunting_using_Fuzzy/
 - templates/index.html –> Frontend HTML files
 - requirements.txt -> required packages to run the project
 - Reports -> Pre-Implementation Evaluation.pdf ( fuzzy logic is working fine or not for the project)
-- Reports -> Post-Implementation Evaluation.pdf ( Includes implemenation results and user survey & feedback and how is helpful for them)
+- Reports -> Post-Implementation Evaluation.pdf ( Includes implemenation results and user survey & feedback and how it is helpful for them)
 - Reports -> Hostel_Hunting_UI_Flow.pdf ( How the project flow is working )
 - Reports -> hostel_hunting_internal_working.pdf (Internal Working of fuzzy_engine.py)
 
