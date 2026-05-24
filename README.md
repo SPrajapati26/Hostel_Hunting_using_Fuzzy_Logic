@@ -60,7 +60,7 @@ http://localhost:5000
 
 ## User Inputs
 
-- Traveler Type (Backpacker, Social Butterfly, Digital Nomad)
+- Traveler Type (Backpacker, Social Butterfly, Worry-Free)
 - Budget
 - Maximum Distance
 - Safety Requirement
@@ -82,5 +82,6 @@ A score indicating how well a hostel matches the user's requirements.
 Information including:
 - Price, Distance from city center, Safety rating, Cleanliness rating 
 Wi-Fi quality, Social atmosphere, Breakfast availability, nearest Station accessibility
+- why this hostel is best
 
   
