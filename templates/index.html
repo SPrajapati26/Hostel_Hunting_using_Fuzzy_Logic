@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Hunter - Fuzzy Recommender</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/tabler-icons.min.css">
+    <style>
+        :root {
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
+            --color-text-primary: #1A1A2E;
+            --color-text-secondary: #666;
+            --color-text-tertiary: #999;
+            --color-background-secondary: #F5F5F5;
+            --color-border-tertiary: #EDE9DF;
+            --color-border-secondary: #E5E0D8;
+        }
+
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{background:#F5F2EB;font-family:var(--font-sans)}
+
+        .wrap{display:flex;gap:20px;min-height:100vh;font-family:var(--font-sans);background:#F5F2EB;padding:20px}
+        .sidebar{width:420px;flex-shrink:0;background:#fff;border-radius:16px;padding:24px;overflow-y:auto;max-height:calc(100vh - 40px);border:0.5px solid var(--color-border-tertiary)}
+        .main{flex:1;background:#fff;border-radius:16px;padding:24px;overflow-y:auto;max-height:calc(100vh - 40px);border:0.5px solid var(--color-border-tertiary)}
+
+        .logo-row{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+        .logo-icon{width:36px;height:36px;border-radius:10px;background:transparent;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+        .logo-title{font-size:24px;font-weight:1000;color:var(--color-text-primary)}
+        .logo-sub{font-size:11px;color:var(--color-text-secondary)}
+
+        .section-star{display:flex;align-items:center;gap:10px;margin-bottom:20px;margin-top:24px}
+        .section-star i{font-size:24px;color:#1A1A2E}
+        .section-star span{font-size:18px;font-weight:600;color:#1A1A2E}
+
+        .pref-row{margin-bottom:26px}
+        .pref-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+        .pref-label{font-size:15px;font-weight:600;color:#1B1464}
+        .pref-value{font-size:15px;font-weight:700;color:#E8521A}
+
+        /* Smooth Slider Styling */
+        input[type=range]{
+            width:100%;
+            height:6px;
+            border-radius:4px;
+            outline:none;
+            cursor:pointer;
+            appearance:none;
+            -webkit-appearance:none;
+            background:linear-gradient(to right,#E8521A var(--pct,50%),#E0DAD0 var(--pct,50%));
+            transition:background 0.1s ease;
+        }
+
+        input[type=range]::-webkit-slider-thumb{
+            -webkit-appearance:none;
+            width:20px;
+            height:20px;
+            border-radius:50%;
+            background:#1B1464;
+            border:3px solid #E86A17;
+            cursor:pointer;
+            margin-top:-4.5px;
+            box-shadow:0 2px 8px rgba(232, 82, 26, 0.3);
+            transition:all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover{
+            transform:scale(1.15);
+            box-shadow:0 4px 12px rgba(232, 82, 26, 0.5);
+        }
+
+        input[type=range]::-webkit-slider-thumb:active{
+            transform:scale(1.05);
+        }
+
+        input[type=range]::-moz-range-thumb{
+            width:24px;
+            height:24px;
+            border-radius:50%;
+            background:#fff;
+            border:3px solid #E8521A;
+            cursor:pointer;
+            box-shadow:0 2px 8px rgba(232, 82, 26, 0.3);
+            transition:all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        input[type=range]::-moz-range-thumb:hover{
+            transform:scale(1.15);
+            box-shadow:0 4px 12px rgba(232, 82, 26, 0.5);
+        }
+
+        input[type=range]::-moz-range-track{
+            height:6px;
+            border-radius:8px;
+            background:transparent;
+            border:none;
+        }
+
+        input[type=range]::-moz-range-progress{
+            height:6px;
+            background:#E8521A;
+            border-radius:8px;
+        }
+
+        .mu-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+        .mu-pill{font-size:11px;font-weight:500;padding:4px 12px;border-radius:24px;border:1.5px solid;line-height:1.4;transition:all 0.2s ease}
+        .mu-active{border-color:#E86A17;color:#E86A17;background:#FFF6EF}
+        .mu-mid{border-color:#2F7EA8;color:#2F7EA8;background:#F2F8FC}
+        .mu-high{border-color:#2FA15F;color:#2FA15F;background:#F1FBF5}
+        .mu-off{border-color:#D4D4D4;color:#A8A8A8;background:#FAFAFA}
+
+        .divider{border:none;border-top:1px solid #EDE9DF;margin:20px 0}
+
+        .traveler-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+        .t-btn{border:1.5px solid #E0DAD0;border-radius:12px;padding:12px 8px;cursor:pointer;background:#fff;text-align:center;transition:all 0.2s ease}
+        .t-btn.active{background:#F5F2EB;border-color:#E8521A}
+        .t-btn i{display:block;font-size:20px;margin-bottom:6px}
+        .t-btn .t-label{font-size:12px;font-weight:600;color:#1A1A2E}
+        .t-btn .t-desc{font-size:10px;color:#888;margin-top:2px}
+
+        .weight-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}
+        .w-chip{border-radius:8px;padding:4px 6px;text-align:center}
+        .w-chip .w-lbl{font-size:9px;font-weight:600}
+        .w-chip .w-pct{font-size:14px;font-weight:700}
+
+        .toggle-row{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap}
+        .tog-wrap{display:flex;align-items:center;gap:10px;cursor:pointer}
+        .tog-track{width:42px;height:24px;border-radius:12px;position:relative;transition:background 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);flex-shrink:0;border:2px solid #D0CCC5}
+        .tog-thumb{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);box-shadow:0 2px 4px rgba(0,0,0,0.1)}
+        .tog-label{font-size:14px;color:#555;font-weight:500}
+
+        .results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+        .results-title{font-size:16px;font-weight:600;color:var(--color-text-primary)}
+        .tier-pills{display:flex;gap:8px}
+        .tier-pill{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
+
+        .card{background:#fff;border-radius:14px;border:1px solid #EDE9DF;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:all 0.2s ease}
+        .card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08);border-color:#D0CCC5}
+        .card.top{border:2px solid #E8521A;background:linear-gradient(135deg, #fff 0%, #FFF9F6 100%)}
+        .card-row{padding:14px;display:flex;align-items:center;gap:12px}
+        .rank-badge{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+        .card-info{flex:1;min-width:0}
+        .card-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+        .card-name{font-size:15px;font-weight:600;color:var(--color-text-primary)}
+        .badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+        .card-meta{display:flex;gap:12px;font-size:13px;color:var(--color-text-secondary);margin-bottom:8px}
+        .mini-bars{display:flex;gap:6px}
+        .mini-bar-wrap{display:flex;align-items:center;gap:3px;flex:1}
+        .mini-bar-lbl{font-size:11px;color:var(--color-text-tertiary);width:10px;font-weight:600}
+        .mini-track{flex:1;height:5px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+        .mini-fill{height:100%;border-radius:3px;transition:width 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)}
+        .ring-wrap{flex-shrink:0;margin-left:auto;padding-left:85px;text-align:center;min-width:90px}
+
+        .card-detail{border-top:0.5px solid #EDE9DF;padding:16px;background:#FAFAF8}
+        .mod-rows{margin-bottom:16px}
+        .mod-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+        .mod-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .mod-lbl{font-size:13px;color:var(--color-text-secondary);width:85px;flex-shrink:0;font-weight:500}
+        .mod-track{flex:1;height:7px;background:var(--color-background-secondary);border-radius:4px;overflow:hidden}
+        .mod-fill{height:100%;border-radius:4px;transition:width 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)}
+        .mod-pct{font-size:13px;font-weight:600;width:35px;text-align:right}
+        .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+        .stat-cell{background:#fff;border-radius:10px;padding:10px 12px;border:1px solid #EDE9DF}
+        .stat-cell-lbl{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text-tertiary);margin-bottom:4px;font-weight:500}
+        .stat-cell-val{font-size:14px;font-weight:600;color:var(--color-text-primary)}
+        .why-lbl{font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px}
+        .why-tags{display:flex;flex-wrap:wrap;gap:6px}
+        .why-good{font-size:12px;background:#E1F5EE;color:#085041;padding:4px 12px;border-radius:20px;font-weight:500}
+        .why-warn{font-size:12px;background:#FAEEDA;color:#633806;padding:4px 12px;border-radius:20px;font-weight:500}
+
+        .show-more{width:100%;padding:12px;font-size:14px;cursor:pointer;border-radius:10px;border:1px solid var(--color-border-secondary);background:#fff;color:var(--color-text-primary);margin-top:4px;font-weight:600;transition:all 0.2s ease}
+        .show-more:hover{background:#F9F8F6;border-color:#D0CCC5}
+
+        .find-results-btn {
+            width:340px;
+            height:35px;
+            margin:16px auto;
+            padding:14px;
+            font-size:15px;
+            font-weight:600;
+            border:none;
+            border-radius:8px;
+            background:linear-gradient(135deg, #E8521A 0%, #D63A0D 100%);
+            color:#fff;
+            cursor:pointer;
+            transition:all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            margin-bottom:20px;
+            box-shadow:0 4px 12px rgba(232, 82, 26, 0.2);
+        }
+
+        .find-results-btn:hover {
+            transform:translateY(-2px);
+            box-shadow:0 6px 16px rgba(232, 82, 26, 0.3);
+        }
+
+        .find-results-btn:active {
+            transform:translateY(0);
+        }
+
+        .find-results-btn:disabled {
+            opacity:0.6;
+            cursor:not-allowed;
+            transform:none;
+        }
+
+        .footer-note{margin-top:16px;padding:12px 14px;background:var(--color-background-secondary);border-radius:10px;font-size:12px;color:var(--color-text-tertiary);display:flex;gap:10px;align-items:flex-start}
+
+        .type-section-lbl{font-size:12px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px}
+        .no-results{text-align:center;padding:40px 20px;color:var(--color-text-secondary);font-size:15px}
+        .loading{text-align:center;padding:40px;color:var(--color-text-secondary)}
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="wrap" id="app">
+    <div class="sidebar">
+        <div class="logo-row">
+            <div class="logo-icon"><i class="ti ti-building" aria-hidden="true"></i></div>
+            <div><div class="logo-title">🎒 Hostel Hunter</div><div class="logo-sub">Fuzzy Logic</div></div>
+        </div>
+
+        <div class="type-section-lbl">Traveler profile</div>
+        <div class="traveler-grid" id="type-grid"></div>
+        <div class="weight-row" id="weight-row"></div>
+
+        <hr class="divider">
+
+        <div class="section-star">
+            <i class="ti ti-star" aria-hidden="false"></i>
+            <span>⭐Your Preferences</span>
+        </div>
+
+        <div id="sliders"></div>
+
+        <hr class="divider">
+        <div class="type-section-lbl">Amenities</div>
+        <div class="toggle-row" id="toggles"></div>
+
+        <button class="find-results-btn" id="find-btn" onclick="findResults()">
+            <i class="ti ti-search" aria-hidden="true"></i>
+            Find Hostels
+        </button>
+    </div>
+
+    <div class="main">
+        <div style="margin-bottom:24px">
+            <div style="font-size:24px;font-weight:600;color:var(--color-text-primary);margin-bottom:6px">Hostel Hunter Results</div>
+            <div style="font-size:14px;color:var(--color-text-secondary)" id="subtitle">Find your perfect hostel with fuzzy logic</div>
+        </div>
+        <div class="results-header" id="results-header" style="display:none">
+            <span class="results-title" id="count-label">Loading results</span>
+            <div class="tier-pills">
+                <span class="tier-pill" style="background:#E1F5EE;color:#085041">Excellent</span>
+                <span class="tier-pill" style="background:#E6F1FB;color:#0C447C">Good</span>
+                <span class="tier-pill" style="background:#FAEEDA;color:#633806">Fair</span>
+            </div>
+        </div>
+        <div id="cards" class="no-results"><i class="ti ti-adjustments-alt" style="font-size:60px;display:block;margin-bottom:12px;color:#ddd" aria-hidden="true"></i>Set your preferences and click<br><strong>"Find Hostels"</strong> to get started</div>
+        <button class="show-more" id="show-more" style="display:none" onclick="showMore()">Show all matching hostels</button>
+        <div class="footer-note">
+            <i class="ti ti-info-circle" style="font-size:20px;text-align:center;flex-shrink:0;margin-bottom:1px" aria-hidden="true"></i>
+            <span style="text-align:center;">Find your Perfect Stay with Hostel Hunter.......</span>
+        </div>
+    </div>
+</div>
+
+<script>
+const TYPES = [
+    { id: "backpacker", label: "Backpacker 🎒", icon: "ti-backpack", color: "#7C3AED", bg: "#EDE9FE", txt: "#4C1D95", desc: "Affordable adventures" },
+    { id: "social", label: "Social butterfly 🦋", icon: "ti-confetti", color: "#DB2777", bg: "#FCE7F3", txt: "#831843", desc: "Vibes & community" },
+    { id: "safety_first", label: "Worry-Free 🙋‍♀️ ", icon: "ti-shield-check", color: "#059669", bg: "#D1FAE5", txt: "#064E3B", desc: "Secure & clean" }
+];
+
+const WLABELS = [["Value", "#E8521A", "#FFF5F0"], ["Convenience", "#3B82F6", "#EEF4FF"], ["Experience", "#DB2777", "#FCE7F3"], ["Safety", "#059669", "#D1FAE5"]];
+
+const MODS = [
+    { k: "value", label: "Value", icon: "ti-coin", c: "#E8521A", bg: "#FFF5F0" },
+    { k: "conv", label: "Convenience", icon: "ti-map-2", c: "#3B82F6", bg: "#EEF4FF" },
+    { k: "exp", label: "Experience", icon: "ti-sparkles", c: "#DB2777", bg: "#FCE7F3" },
+    { k: "safe", label: "Safety", icon: "ti-shield", c: "#059669", bg: "#D1FAE5" }
+];
+
+const WEIGHTS = {
+    backpacker: { value: 0.30, convenience: 0.20, experience: 0.28, safety: 0.22 },
+    social: { value: 0.18, convenience: 0.18, experience: 0.46, safety: 0.18 },
+    safety_first: { value: 0.15, convenience: 0.25, experience: 0.15, safety: 0.55 }
+};
+
+const SLIDERS = [
+    { k: "budget", label: "Budget (max/night)", min: 18, max: 75, step: 1, fmt: v => `${v} €`, unit: "" },
+    { k: "maxDist", label: "Max Distance from Centre", min: 0.5, max: 7.5, step: 0.5, fmt: v => `${v.toFixed(1)} km`, unit: "km" },
+    { k: "minSafety", label: "Min Safety Rating", min: 1, max: 10, step: 0.5, fmt: v => `${v.toFixed(1)} /10`, unit: "/10" },
+    { k: "minClean", label: "Min Cleanliness", min: 1, max: 10, step: 0.5, fmt: v => `${v.toFixed(1)} /10`, unit: "/10" },
+    { k: "socialImp", label: "Social Vibe Importance", min: 1, max: 10, step: 1, fmt: v => `${v} /10`, unit: "/10" },
+    { k: "wifiImp", label: "WiFi Importance", min: 1, max: 10, step: 1, fmt: v => `${v} /10`, unit: "/10" }
+];
+
+let state = {
+    type: "backpacker",
+    budget: 50,
+    maxDist: 7,
+    minSafety: 1,
+    minClean: 1,
+    socialImp: 6,
+    wifiImp: 6,
+    breakfast: false,
+    station: false,
+    expanded: null,
+    showAll: false,
+    hostels: [],
+    resultsLoaded: false
+};
+
+function muClass(v) { return v >= 0.5 ? "mu-active" : v >= 0.1 ? "mu-mid" : "mu-off"; }
+
+function muPills(mf, labels, keys) {
+    return keys.map((k, i) => `<span class="mu-pill ${muClass(mf[k])}">${labels[i]} (μ=${mf[k].toFixed(2)})</span>`).join("");
+}
+
+function getTier(s) {
+    if (s >= 0.78) return { l: "Excellent", c: "#059669", b: "#D1FAE5", t: "#064E3B" };
+    if (s >= 0.65) return { l: "Good", c: "#2563EB", b: "#DBEAFE", t: "#1E3A8A" };
+    if (s >= 0.50) return { l: "Fair", c: "#D97706", b: "#FEF3C7", t: "#78350F" };
+    return { l: "Poor", c: "#DC2626", b: "#FEE2E2", t: "#7F1D1D" };
+}
+
+function ring(s, color, size = 70) {
+    const r = 20, circ = 2 * Math.PI * r, pct = Math.round(s * 100);
+    const d = circ * s, g = circ * (1 - s);
+    return `<svg width="${size}" height="${size}" viewBox="0 0 52 52"><circle cx="26" cy="26" r="${r}" fill="none" stroke="#EDE9DF" stroke-width="4.5"/><circle cx="26" cy="26" r="${r}" fill="none" stroke="${color}" stroke-width="4.5" stroke-dasharray="${d.toFixed(2)} ${g.toFixed(2)}" stroke-dashoffset="${(circ / 4).toFixed(2)}" stroke-linecap="round"/><text x="26" y="31" text-anchor="middle" font-size="14" font-weight="500" fill="${color}">${pct}</text></svg>`;
+}
+
+function renderSidebar() {
+    const tg = document.getElementById("type-grid");
+    tg.innerHTML = TYPES.map(t => `
+        <button class="t-btn${state.type === t.id ? " active" : ""}" onclick="setType('${t.id}')" style="${state.type === t.id ? `border-color:${t.color};` : ""}">
+            <i class="ti ${t.icon}" style="color:${state.type === t.id ? t.color : "#999"}" aria-hidden="true"></i>
+            <div class="t-label">${t.label}</div>
+            <div class="t-desc">${t.desc}</div>
+        </button>`).join("");
+
+    const wr = document.getElementById("weight-row");
+    const w = WEIGHTS[state.type];
+    const wvals = [w.value, w.convenience, w.experience, w.safety];
+    wr.innerHTML = WLABELS.map(([l, c, bg], i) => `
+        <div class="w-chip" style="background:${bg}">
+            <div class="w-lbl" style="color:${c}">${l}</div>
+            <div class="w-pct" style="color:${c}">${Math.round(wvals[i] * 100)}%</div>
+        </div>`).join("");
+
+    const slCont = document.getElementById("sliders");
+    slCont.innerHTML = SLIDERS.map(s => {
+        const v = state[s.k];
+        const pct = ((v - s.min) / (s.max - s.min) * 100).toFixed(1);
+        return `<div class="pref-row">
+            <div class="pref-header">
+                <span class="pref-label">${s.label}</span>
+                <span class="pref-value">${s.fmt(v)}</span>
+            </div>
+            <input type="range" min="${s.min}" max="${s.max}" step="${s.step}" value="${v}"
+                style="--pct:${pct}%"
+                oninput="updatePref('${s.k}',this.value,this)">
+            <div class="mu-pills" id="pills-${s.k}"></div>
+        </div>`;
+    }).join("");
+
+    // Add fuzzy membership pills
+    SLIDERS.forEach(s => {
+        const v = state[s.k];
+        const pillsContainer = document.getElementById(`pills-${s.k}`);
+        let pills = "";
+
+        if(s.k==="budget"){
+            const mf = fzP(v);
+            pills = muPills(mf, ["Low","Medium","High"], ["low","med","high"]);
+        } else if(s.k==="maxDist"){
+            const mf = fzD(v);
+            pills = muPills(mf, ["Near","Moderate","Far"], ["near","mod","far"]);
+        } else if(s.k==="minSafety" || s.k==="minClean"){
+            const mf = fzR(v);
+            pills = muPills(mf, ["Low","Medium","High"], ["low","med","high"]);
+        } else if(s.k==="socialImp" || s.k==="wifiImp"){
+            const mf = fzR(v);
+            pills = muPills(mf, ["Low","Moderate","High"], ["low","med","high"]);
+        }
+        if(pillsContainer) pillsContainer.innerHTML = pills;
+    });
+
+    const tog = document.getElementById("toggles");
+    tog.innerHTML = [["breakfast", "ti-egg", "Breakfast"], ["station", "ti-train", "Nearest station"]].map(([k, ic, l]) => `
+        <div class="tog-wrap" onclick="togglePref('${k}')">
+            <div class="tog-track" style="background:${state[k] ? TYPES.find(t => t.id === state.type).color : "#E5E0D8"}">
+                <div class="tog-thumb" style="left:${state[k] ? 20 : 2}px"></div>
+            </div>
+            <i class="ti ${ic}" style="font-size:16px;color:#888" aria-hidden="true"></i>
+            <span class="tog-label">${l}</span>
+        </div>`).join("");
+}
+
+// Fuzzy membership functions
+const trap=(x,a,b,c,d)=>x<=a||x>=d?0:x>=b&&x<=c?1:x<b?(x-a)/(b-a):(d-x)/(d-c);
+const tri=(x,a,b,c)=>x<=a||x>=c?0:x===b?1:x<b?(x-a)/(b-a):(c-x)/(c-b);
+const fzP=p=>({low:trap(p,0,0,25,40),med:tri(p,25,45,65),high:trap(p,55,70,100,100)});
+const fzD=d=>({near:trap(d,0,0,1.5,3),mod:tri(d,1.5,3.5,5.5),far:trap(d,4,6,10,10)});
+const fzR=r=>({low:trap(r,0,0,5,7),med:tri(r,5,7,9),high:trap(r,7.5,9,10,10)});
+
+function renderCards() {
+    if (state.hostels.length === 0) {
+        document.getElementById("count-label").textContent = `${state.hostels.length} hostels matched`;
+        document.getElementById("subtitle").textContent = `100 hostels in dataset · ${state.hostels.length} match your filters`;
+        document.getElementById("cards").innerHTML = `<div class="no-results"><i class="ti ti-search-off" style="font-size:48px;display:block;margin-bottom:12px;color:#ddd" aria-hidden="true"></i>No hostels match these filters.<br>Try relaxing safety, cleanliness or distance.</div>`;
+        return;
+    }
+
+    const all = state.hostels;
+    const shown = state.showAll ? all : all.slice(0, 8);
+    const activeType = TYPES.find(t => t.id === state.type);
+
+    document.getElementById("count-label").textContent = `${all.length} hostels matched — top ${shown.length} shown`;
+    document.getElementById("subtitle").textContent = `100 hostels in dataset · ${all.length} pass your filters`;
+
+    const sm = document.getElementById("show-more");
+    sm.style.display = (!state.showAll && all.length > 8) ? "block" : "none";
+    if (!state.showAll && all.length > 8) sm.textContent = `Show all ${all.length} matching hostels`;
+
+    const cont = document.getElementById("cards");
+    cont.innerHTML = shown.map((h, i) => {
+        const tier = getTier(h.final_score);
+        const isTop = i === 0;
+        const open = state.expanded === h.Hostel_ID;
+        const rankBg = isTop ? activeType.color : "var(--color-background-secondary)";
+        const rankColor = isTop ? "#fff" : "var(--color-text-secondary)";
+        const rankNum = i < 3 ? ["🥇", "🥈", "🥉"][i] : i + 1;
+
+        let detail = "";
+        if (open) {
+            detail = `<div class="card-detail">
+                <div class="mod-rows">
+                    ${MODS.map(m => { const v = h.subs[m.k]; const pct = Math.round(v * 100); return `
+                    <div class="mod-row">
+                        <div class="mod-icon" style="background:${m.bg}"><i class="ti ${m.icon}" style="font-size:14px;color:${m.c}" aria-hidden="true"></i></div>
+                        <span class="mod-lbl">${m.label}</span>
+                        <div class="mod-track"><div class="mod-fill" style="width:${pct}%;background:${m.c}"></div></div>
+                        <span class="mod-pct" style="color:${m.c}">${pct}%</span>
+                    </div>`; }).join("")}
+                </div>
+                <div class="stat-grid">
+                    ${[["ti-shield","Safety",`${h.Safety_Rating_10}/10`],["ti-sparkles","Cleanliness",`${h.Cleanliness_Rating_10}/10`],["ti-friends","Social vibe",`${h.Social_Vibe_Score_10}/10`],["ti-wifi","WiFi",`${h.WiFi_Quality_10}/10`],["ti-currency-euro","Price",`€${h.Budget_per_Night_EUR}`],["ti-map-pin","Distance",`${h.Distance_from_Centre_km}km`],["ti-egg","Breakfast",h.Breakfast_Included],["ti-train","Station",h.Nearest_Station_Available==="Yes"?"Nearby":"No"]].map(([ic,l,v])=>`
+                    <div class="stat-cell">
+                        <div class="stat-cell-lbl"><i class="ti ${ic}" style="font-size:13px" aria-hidden="true"></i>${l}</div>
+                        <div class="stat-cell-val">${v}</div>
+                    </div>`).join("")}
+                </div>
+                <div class="why-lbl">Why this hostel?</div>
+                <div class="why-tags">
+                    ${h.good.map(r=>`<span class="why-good">✓ ${r}</span>`).join("")}
+                    ${h.warn.map(r=>`<span class="why-warn">⚠ ${r}</span>`).join("")}
+                </div>
+            </div>`;
+        }
+
+        return`<div class="card${isTop?" top":""}" id="card-${h.Hostel_ID}">
+            <div class="card-row" onclick="toggleCard(${h.Hostel_ID})">
+                <div class="rank-badge" style="background:${rankBg};color:${rankColor}">${rankNum}</div>
+                <div class="card-info">
+                    <div class="card-name-row">
+                        <span class="card-name">${h.Hostel_Name}</span>
+                        ${isTop?`<span class="badge" style="background:${activeType.bg};color:${activeType.txt}">Best match</span>`:""}
+                        <span class="badge" style="background:${tier.b};color:${tier.t}">${tier.l}</span>
+                    </div>
+                    <div class="card-meta">
+                        <span>${h.Area}</span>
+                        <span>€${h.Budget_per_Night_EUR}/night</span>
+                        <span>${h.Distance_from_Centre_km}km from centre</span>
+                    </div>
+
+                <div class="ring-wrap">
+                    <div style="font-size:12px;color:#666;text-align:center;">Recommendation Score</div>
+                    ${ring(h.final_score,tier.c)}
+                </div>
+                <i class="ti ${open?"ti-chevron-up":"ti-chevron-down"}" style="font-size:16px;color:#aaa;flex-shrink:0" aria-hidden="true"></i>
+            </div>
+            ${detail}
+        </div>`;
+    }).join("");
+}
+
+function setType(t) { state.type = t; state.showAll = false; renderSidebar(); }
+
+function updatePref(k, v, el) {
+    state[k] = parseFloat(v);
+    state.showAll = false;
+    const s = SLIDERS.find(x => x.k === k);
+    const pct = ((parseFloat(v) - s.min) / (s.max - s.min) * 100).toFixed(1);
+    el.style.setProperty("--pct", pct + "%");
+    renderSidebar();
+}
+
+function togglePref(k) { state[k] = !state[k]; state.showAll = false; renderSidebar(); }
+
+function toggleCard(id) { state.expanded = state.expanded === id ? null : id; renderCards(); }
+
+function showMore() { state.showAll = true; renderCards(); }
+
+async function findResults() {
+    const btn = document.getElementById("find-btn");
+    btn.disabled = true;
+    btn.innerHTML = '<i class="ti ti-loader-2" style="animation: spin 1s linear infinite;"></i> Finding...';
+
+    document.getElementById("results-header").style.display = "flex";
+    document.getElementById("cards").innerHTML = `<div class="loading"><i class="ti ti-loader-2" style="animation: spin 1s linear infinite; font-size:32px"></i><br><br>Computing recommendations...</div>`;
+
+    try {
+        const response = await fetch('/api/hostels', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                type: state.type,
+                budget: state.budget,
+                maxDist: state.maxDist,
+                minSafety: state.minSafety,
+                minClean: state.minClean,
+                socialImportance: state.socialImp,
+                wifiImportance: state.wifiImp,
+                breakfast: state.breakfast,
+                station: state.station
+            })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            state.hostels = data.hostels;
+            state.resultsLoaded = true;
+            state.showAll = false;
+            renderCards();
+        } else {
+            document.getElementById("cards").innerHTML = `<div class="no-results">Error: ${data.error}</div>`;
+        }
+    } catch (error) {
+        document.getElementById("cards").innerHTML = `<div class="no-results">Error loading recommendations: ${error.message}</div>`;
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ti ti-search" aria-hidden="true"></i> Find Results';
+    }
+}
+
+renderSidebar();
+</script>
+</body>
+</html>

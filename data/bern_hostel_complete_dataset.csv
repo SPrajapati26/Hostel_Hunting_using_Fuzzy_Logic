@@ -1,0 +1,101 @@
+Hostel_ID,Hostel_Name,Area,Budget_per_Night_EUR,Distance_from_Centre_km,Safety_Rating_10,Cleanliness_Rating_10,Social_Vibe_Score_10,WiFi_Quality_10,Breakfast_Included,Nearest_Station_Available
+1,Bern Backpackers 1,Old Town,67.16,2.1,8.4,6.0,9.8,8.2,Yes,Yes
+2,Alpine Youth Hostel 2,Lorraine,31.13,1.02,6.4,9.2,7.2,9.5,No,Yes
+3,Nomad Nest 3,Länggasse,19.91,0.26,5.7,8.3,5.2,4.0,Yes,Yes
+4,Bern Backpackers 4,Kirchenfeld,57.95,2.81,7.2,8.9,2.5,9.1,Yes,No
+5,Aare Hostel 5,Länggasse,37.04,1.05,6.3,7.1,7.2,7.0,Yes,Yes
+6,RiverSide Hostel 6,Wabern,63.19,4.41,6.4,7.4,8.2,4.5,Yes,No
+7,Metro Stay Bern 7,Länggasse,51.41,6.4,6.3,7.8,6.5,6.1,No,No
+8,Swiss Budget Inn 8,Breitenrain,46.48,3.66,9.1,6.2,3.4,9.3,No,No
+9,LakeView Stay 9,Lorraine,29.62,2.3,5.6,6.9,7.9,6.6,No,No
+10,Bern Comfort Rooms 10,Old Town,27.22,3.74,5.9,6.5,5.8,9.1,No,Yes
+11,CityHub Bern 11,Breitenrain,57.76,1.34,9.1,6.2,7.7,9.9,No,Yes
+12,LakeView Stay 12,Bümpliz,73.92,1.1,7.4,8.0,2.7,4.7,Yes,No
+13,Bern Comfort Rooms 13,Mattenhof,54.45,2.51,8.0,7.2,7.5,8.5,Yes,No
+14,Central Hostel 14,Old Town,42.93,5.31,5.8,8.9,7.4,6.8,No,Yes
+15,Metro Stay Bern 15,Old Town,32.66,0.57,9.2,6.8,7.9,6.6,No,Yes
+16,Central Hostel 16,Bümpliz,28.59,1.88,7.7,7.3,8.6,9.8,Yes,Yes
+17,Nomad Nest 17,Mattenhof,73.97,1.65,7.7,6.2,6.0,9.7,Yes,No
+18,Bern Backpackers 18,Old Town,67.36,7.08,8.0,8.5,8.5,4.2,Yes,Yes
+19,Social House Bern 19,Mattenhof,56.82,5.05,9.2,8.2,8.0,9.4,Yes,No
+20,CityHub Bern 20,Wabern,26.91,2.54,9.4,7.2,3.8,5.0,No,No
+21,Bern Comfort Rooms 21,Mattenhof,39.85,3.01,9.4,8.0,9.7,9.8,No,Yes
+22,Central Hostel 22,Mattenhof,26.22,5.25,5.8,9.3,7.7,4.6,Yes,Yes
+23,CityHub Bern 23,Länggasse,26.59,7.21,7.7,6.5,7.7,5.1,No,Yes
+24,CityHub Bern 24,Länggasse,26.08,6.01,6.7,8.9,9.9,8.9,Yes,No
+25,Central Hostel 25,Kirchenfeld,36.29,3.55,9.7,6.8,7.1,8.2,Yes,No
+26,Nomad Nest 26,Old Town,72.59,4.39,6.2,9.7,6.4,7.7,Yes,No
+27,RiverSide Hostel 27,Wabern,73.8,1.22,8.4,8.0,5.1,4.6,No,Yes
+28,Traveler Point 28,Bümpliz,58.75,2.3,8.3,8.6,7.6,8.8,Yes,No
+29,Traveler Point 29,Mattenhof,27.5,2.51,7.4,7.7,5.2,6.5,No,Yes
+30,Central Hostel 30,Old Town,24.18,6.66,6.4,6.8,9.5,5.5,Yes,No
+31,Central Hostel 31,Bümpliz,34.74,2.35,9.2,8.2,9.8,7.8,Yes,No
+32,Central Hostel 32,Old Town,21.85,2.7,7.5,6.6,3.3,4.7,No,Yes
+33,Alpine Youth Hostel 33,Wabern,29.46,3.01,7.5,9.7,3.6,4.9,No,Yes
+34,Aare Hostel 34,Mattenhof,47.76,7.0,8.2,7.3,7.6,7.5,No,Yes
+35,Alpine Youth Hostel 35,Mattenhof,63.92,5.49,8.9,5.9,9.3,4.6,Yes,No
+36,Bern Backpackers 36,Lorraine,32.75,3.54,9.6,7.4,3.5,6.8,Yes,No
+37,Swiss Budget Inn 37,Lorraine,39.94,5.77,7.6,6.0,6.4,6.6,Yes,No
+38,Bern Backpackers 38,Kirchenfeld,28.05,5.44,7.4,6.2,8.5,6.3,Yes,No
+39,Nomad Nest 39,Länggasse,34.86,1.13,6.5,9.7,5.5,5.9,Yes,Yes
+40,Metro Stay Bern 40,Mattenhof,40.04,4.48,6.2,9.5,9.9,8.9,Yes,Yes
+41,CityHub Bern 41,Lorraine,21.84,4.84,7.4,5.8,9.9,8.2,Yes,Yes
+42,RiverSide Hostel 42,Kirchenfeld,66.39,5.78,9.6,6.4,5.5,5.1,No,No
+43,Swiss Budget Inn 43,Breitenrain,22.52,2.63,9.3,8.4,6.6,7.2,No,Yes
+44,CityHub Bern 44,Länggasse,45.24,6.92,6.5,8.9,5.4,6.5,No,Yes
+45,Alpine Youth Hostel 45,Breitenrain,69.59,0.96,7.3,7.0,9.3,6.5,Yes,Yes
+46,Traveler Point 46,Wabern,44.08,4.73,7.2,6.8,3.4,6.8,No,No
+47,LakeView Stay 47,Bümpliz,60.72,4.21,9.1,8.1,2.9,8.3,Yes,Yes
+48,Bern Backpackers 48,Old Town,50.88,6.49,9.2,8.7,6.7,9.1,Yes,No
+49,Bern Backpackers 49,Old Town,29.86,6.42,8.8,8.4,7.7,7.6,No,Yes
+50,Old Town Stay 50,Mattenhof,65.63,7.11,8.8,7.4,8.1,7.2,No,No
+51,Bern Backpackers 51,Breitenrain,41.65,3.33,8.6,8.0,7.6,8.8,Yes,No
+52,Traveler Point 52,Mattenhof,26.2,0.54,7.9,9.0,4.8,5.6,No,No
+53,Bear City Hostel 53,Lorraine,49.53,3.82,5.8,5.6,6.8,7.8,Yes,No
+54,Alpine Youth Hostel 54,Lorraine,22.15,6.48,7.5,7.3,7.3,4.3,Yes,No
+55,Old Town Stay 55,Bümpliz,31.12,3.09,9.5,7.4,3.2,5.2,Yes,No
+56,Central Hostel 56,Old Town,62.75,3.52,6.0,8.9,2.2,6.6,No,No
+57,RiverSide Hostel 57,Breitenrain,47.33,3.75,9.3,9.7,4.7,5.6,Yes,Yes
+58,Old Town Stay 58,Länggasse,65.96,1.52,7.8,9.8,3.6,6.8,Yes,Yes
+59,Alpine Youth Hostel 59,Old Town,32.87,5.6,7.0,8.9,2.8,4.4,No,No
+60,Traveler Point 60,Bümpliz,18.91,6.46,8.1,9.7,5.1,9.0,No,Yes
+61,Aare Hostel 61,Mattenhof,65.26,5.36,7.4,6.1,4.1,9.9,Yes,No
+62,RiverSide Hostel 62,Wabern,67.11,6.09,7.2,6.9,7.7,9.1,No,Yes
+63,Bern Comfort Rooms 63,Mattenhof,29.92,4.47,7.0,6.3,8.4,5.9,Yes,No
+64,Swiss Budget Inn 64,Kirchenfeld,56.88,6.22,6.3,8.5,3.3,9.6,Yes,Yes
+65,Traveler Point 65,Breitenrain,51.78,3.77,7.7,7.9,8.8,4.8,No,Yes
+66,LakeView Stay 66,Lorraine,18.31,0.85,5.7,6.7,5.7,5.8,Yes,Yes
+67,Bern Comfort Rooms 67,Bümpliz,51.29,0.95,7.7,7.0,4.8,5.0,Yes,Yes
+68,Social House Bern 68,Mattenhof,34.17,6.49,9.4,7.9,5.3,6.8,Yes,Yes
+69,Central Hostel 69,Wabern,64.64,5.86,8.2,5.5,9.5,7.1,No,Yes
+70,Metro Stay Bern 70,Kirchenfeld,29.63,6.44,9.0,8.6,9.2,8.1,No,No
+71,Old Town Stay 71,Breitenrain,55.06,0.41,9.7,8.8,2.8,6.5,No,No
+72,Social House Bern 72,Mattenhof,29.42,3.97,7.5,6.9,9.6,6.0,Yes,No
+73,Bern Comfort Rooms 73,Länggasse,69.21,0.67,6.1,7.5,7.6,5.1,No,Yes
+74,Swiss Budget Inn 74,Lorraine,54.39,6.18,6.8,6.3,8.8,8.3,No,Yes
+75,Bear City Hostel 75,Wabern,74.99,7.17,6.0,7.5,4.2,5.4,Yes,No
+76,Bern Comfort Rooms 76,Bümpliz,26.16,6.0,9.5,7.1,4.6,4.5,No,Yes
+77,Bern Comfort Rooms 77,Wabern,73.81,4.12,6.7,6.8,8.0,6.1,Yes,No
+78,Metro Stay Bern 78,Wabern,22.12,3.37,5.7,9.0,3.9,9.8,No,Yes
+79,CityHub Bern 79,Lorraine,74.68,2.22,7.2,8.5,6.3,5.3,No,No
+80,Bern Comfort Rooms 80,Old Town,39.97,2.32,8.3,6.1,2.3,8.7,No,No
+81,Alpine Youth Hostel 81,Old Town,68.67,5.96,7.2,5.8,8.8,6.6,No,No
+82,Alpine Youth Hostel 82,Lorraine,38.69,0.62,6.6,7.2,3.8,5.3,No,No
+83,Central Hostel 83,Mattenhof,42.24,5.35,6.5,9.8,8.8,9.6,Yes,Yes
+84,Nomad Nest 84,Länggasse,23.04,3.56,9.0,6.9,2.1,7.7,No,Yes
+85,LakeView Stay 85,Mattenhof,64.89,4.63,7.1,9.5,3.6,9.9,Yes,No
+86,Nomad Nest 86,Bümpliz,65.86,5.72,6.6,9.3,5.8,6.8,Yes,Yes
+87,Bern Backpackers 87,Mattenhof,23.19,7.22,9.0,7.1,3.0,7.9,No,No
+88,Metro Stay Bern 88,Länggasse,63.34,2.7,6.5,9.0,5.8,7.4,Yes,Yes
+89,Metro Stay Bern 89,Old Town,23.6,4.89,8.4,8.1,9.0,4.8,No,Yes
+90,LakeView Stay 90,Breitenrain,30.46,3.4,7.1,8.5,2.2,8.0,No,Yes
+91,Alpine Youth Hostel 91,Länggasse,22.38,4.61,7.9,9.5,6.8,9.0,No,Yes
+92,Bern Comfort Rooms 92,Länggasse,30.45,0.61,6.6,6.8,8.6,8.8,Yes,No
+93,Alpine Youth Hostel 93,Bümpliz,22.08,2.55,6.3,9.4,3.1,9.8,Yes,No
+94,Metro Stay Bern 94,Bümpliz,22.58,6.11,8.2,9.4,5.3,8.2,No,Yes
+95,CityHub Bern 95,Mattenhof,72.32,5.92,7.6,6.7,8.6,5.2,Yes,No
+96,Nomad Nest 96,Lorraine,31.61,2.75,9.0,7.8,7.1,5.9,No,No
+97,Nomad Nest 97,Breitenrain,60.17,0.21,9.7,8.1,5.6,4.3,No,No
+98,Bern Backpackers 98,Breitenrain,25.1,7.23,7.9,7.3,8.3,9.1,No,Yes
+99,Bear City Hostel 99,Old Town,58.77,5.93,6.8,7.6,6.5,8.7,No,Yes
+100,Bern Comfort Rooms 100,Länggasse,44.01,0.9,8.8,6.4,4.5,9.9,Yes,Yes
